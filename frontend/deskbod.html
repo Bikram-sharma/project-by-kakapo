@@ -3,30 +3,35 @@
 <head>
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="./deskbod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
-    <main class="bg-black text-white px-10 py-5">
-       <p>Welcome, UserName! Discover beautiful images and save them instantly.</p>
+    <main class="bg-blue-400 text-black px-10 py-5">
+       <p><i>Welcome, UserName! Discover beautiful images and save them instantly.</i></p>
        <div class="bg-white w-[50vw] h-10 my-5 rounded-full text-black flex justify-between">
-        <i  class="bg-green-400 rounded-l-full w-10">icon</i>
-        <input type="text" class="bg-red-200 flex-grow px-2 focus:outline-none">
-        <button class="bg-green-400 rounded-r-full w-20 focus:outline-none">Search</button>
+        <i  class="bg-blue-600 rounded-l-full w-10">icon</i>
+        <input id="searchInput" type="text" class="bg-white flex-grow px-2 focus:outline-none">
+        <button id="searchButton" class="bg-blue-600 rounded-r-full w-20 focus:outline-none">Search</button>
        </div>
-       <div class="bg-blue-600 grid grid-cols-6 gap-2">
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
-        <div class="h-[250px]  bg-red-300"></div>
+       <div id="imageContainer" class="bg-blue-400 grid grid-cols-4 gap-2">
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
+        <div class="h-[250px]  bg-blue-600"></div>
        </div>
     </main>
 </body>
 </html>
+
+<!-- https://images.pexels.com/lib/xLqhmV2nn5IXBFh1EL530c04j296FrZc09oFy2WnkHVMywAMSxTAFIeu/pexels.png" -->
+ <!-- "https://images.pexels.com/lib/api/pexels.png"  -->
