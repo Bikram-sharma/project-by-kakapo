@@ -37,35 +37,48 @@ const User = mongoose.model("User", userSchema);
 
 app.post("/signup", async (req, res) => {
   try {
-    const { userName, password, email } = req.body;
+    const { username, password, email } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const existingUser = await User.findOne({ userName: username });
+    if (existingUser) {
+      return res.status(400).json({ error: "Username already taken" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      userName,
+      userName: username,
       password: hashedPassword,
-      email,
+      email: email,
     });
 
     const saved = await newUser.save();
 
     res.status(201).json(saved);
   } catch (err) {
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyValue)[0];
+      return res.status(400).json({ error: `${field} already exists` });
+    }
     res.status(400).json({ err });
   }
 });
 
 app.post("/login", async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!userName || !password) {
+    if (!username || !password) {
       return res.status(400).json({
         error: "Username and password are required",
       });
     }
 
-    const user = await User.findOne({ userName });
+    const user = await User.findOne({ username });
     if (!user) {
       return res.status(401).json({ error: "User not found" });
     }
@@ -73,8 +86,8 @@ app.post("/login", async (req, res) => {
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (correctPassword) {
-      const { userName, email } = user;
-      res.json({ userName, email });
+      const { username, email } = user;
+      res.json({ username, email });
     } else {
       return res.status(401).json({ error: "Invalid credentials" });
     }
@@ -84,5 +97,5 @@ app.post("/login", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("its working on port 5000");
+  console.log("its working on port 3000");
 });
