@@ -78,7 +78,7 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ userName: username });
     if (!user) {
       return res.status(401).json({ error: "User not found" });
     }
@@ -86,8 +86,8 @@ app.post("/login", async (req, res) => {
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (correctPassword) {
-      const { username, email } = user;
-      res.json({ username, email });
+      const { userName, email } = user;
+      res.status(200).json({ username: userName, email });
     } else {
       return res.status(401).json({ error: "Invalid credentials" });
     }
