@@ -5,6 +5,31 @@ function signup(e) {
   const formData = new FormData(form);
   const body = Object.fromEntries(formData);
 
+  const validEmail = validator.isEmail(body.email.trim());
+  const validPassword = validator.isStrongPassword(body.password.trim(), {
+    minLength: 8,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+  });
+
+  if (!validEmail || !validPassword) {
+    let message = !validEmail
+      ? "Invalid email address"
+      : "Password must be at least 8 characters long and include uppercase, lowercase, a number, and a symbol.";
+
+    Toastify({
+      text: message,
+      duration: 3000,
+      gravity: "top", // top or bottom
+      position: "center", // left, center or right
+      backgroundColor: "red",
+    }).showToast();
+
+    return;
+  }
+
   axios
     .post("http://localhost:3000/signup", body)
     .then((response) => {
@@ -14,7 +39,13 @@ function signup(e) {
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
-        alert(error.response.data.error);
+        Toastify({
+          text: error.response.data.error,
+          duration: 3000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "red",
+        }).showToast();
       } else {
         console.error("Server Error", error);
       }
