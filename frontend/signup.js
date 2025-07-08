@@ -61,5 +61,4 @@ toggleIcon.addEventListener("click",()=>{
   const ispassword = passwordInput.type === "password"
   passwordInput.type = ispassword ? "text" : "password";
   toggleIcon.classList.toggle("fa-eye");
-  toggleIcon.classList.toggle("fa-eye-slash");
 });
