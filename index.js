@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const port = 3000;
 const bcrypt = require("bcrypt");
+const { v4: uniqueId } = require("uuid");
 app.use(cors());
 app.use(express.json());
 const users = require("./users");
@@ -33,6 +34,7 @@ app.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = {
+      id: uniqueId(),
       username,
       password: hashedPassword,
       email,
