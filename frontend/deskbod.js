@@ -6,11 +6,11 @@ const imageContainer = document.getElementById("imageContainer");
 const logOutButton = document.getElementById("logout");
 const userName = document.getElementById("username");
 
-if (!localStorage.getItem("user")) {
+if (!sessionStorage.getItem("user")) {
   window.location.href = "./login.html";
 }
 
-userName.innerText = `${localStorage.getItem("user")}!` || "Guest";
+userName.innerText = `${sessionStorage.getItem("user")}!` || "Guest";
 
 function search(query) {
   axios
@@ -121,7 +121,7 @@ logOutButton.addEventListener("click", () => {
     backgroundColor: "green",
   }).showToast();
 
-  localStorage.setItem("user", "");
+  sessionStorage.setItem("user", "");
   setTimeout(() => (window.location.href = "./login.html"), 1000);
 });
 

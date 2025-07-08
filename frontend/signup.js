@@ -2,6 +2,10 @@ const form = document.getElementById("signupForm");
 const toggleIcon = document.getElementById("passwordIcon");
 const passwordInput = document.getElementById("password");
 
+if (sessionStorage.getItem("user")) {
+  window.location.href = "./deskbod.html";
+}
+
 function signup(e) {
   e.preventDefault();
   const formData = new FormData(form);
