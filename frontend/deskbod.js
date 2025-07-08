@@ -81,7 +81,7 @@ searchButton.addEventListener("click", verifySearch);
 
 logOutButton.addEventListener("click", () => {
   Toastify({
-    text: "Log out successfully!",
+    text: "Logged out successfully!",
     duration: 2000,
     gravity: "top", // top or bottom
     position: "center", // left, center or right

@@ -1,4 +1,6 @@
 const form = document.getElementById("loginForm");
+const toggleIcon= document.getElementById("passwordIcon");
+const passwordInput = document.getElementById("password");
 
 function login(e) {
   e.preventDefault();
@@ -31,3 +33,12 @@ function login(e) {
 }
 
 form.addEventListener("submit", (e) => login(e));
+
+toggleIcon.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password";
+    passwordInput.type = isPassword ? "text" : "password";
+    toggleIcon.classList.toggle("fa-eye");
+    toggleIcon.classList.toggle("fa-eye-slash");
+  });
+
+
