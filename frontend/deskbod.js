@@ -12,8 +12,6 @@ if (!localStorage.getItem("user")) {
 
 userName.innerText = `${localStorage.getItem("user")}!` || "Guest";
 
-
-
 function search(query) {
   axios
     .get(`https://api.pexels.com/v1/search?query=${query}&per_page=20`, {
@@ -36,15 +34,15 @@ function search(query) {
 
       pics.forEach((photo) => {
         const card = document.createElement("div");
-        card.className = "h-[250px] bg-white rounded shadow flex flex-col relative";
+        card.className =
+          "h-[250px] bg-white rounded shadow flex flex-col relative";
 
         const icon = document.createElement("i");
-        icon.className = "fa-solid fa-download absolute bottom-2 right-2 text-blue-600 cursor-pointer";
+        icon.className =
+          "fa-solid fa-download absolute bottom-0 right-0 text-white cursor-pointer bg-black/70 rounded p-2";
         icon.title = "Download";
-      
-        icon.onclick = ()=> downloadImage(photo.src.large);
 
-        
+        icon.onclick = () => downloadImage(photo.src.large);
 
         const img = document.createElement("img");
         img.src = photo.src.medium;
@@ -54,21 +52,20 @@ function search(query) {
         card.appendChild(img);
         card.appendChild(icon);
         imageContainer.appendChild(card);
-      }); 
+      });
     })
     .catch(function (error) {
       console.error("Error fetching images:", error);
     });
 }
 
-
 function downloadImage(url) {
-  fetch(url, { mode: 'cors' })
-    .then(res => res.blob())
-    .then(blob => {
+  fetch(url, { mode: "cors" })
+    .then((res) => res.blob())
+    .then((blob) => {
       const link = document.createElement("a");
       const objectUrl = URL.createObjectURL(blob);
-      const imageName = url.split('?')[0].split('/').pop() || 'image.jpg';
+      const imageName = url.split("?")[0].split("/").pop() || "image.jpg";
       link.href = objectUrl;
       link.download = imageName;
       document.body.appendChild(link);
@@ -76,19 +73,18 @@ function downloadImage(url) {
       document.body.removeChild(link);
       URL.revokeObjectURL(objectUrl);
     })
-    .catch(err => console.error('Download failed:', err));
+    .catch((err) => console.error("Download failed:", err));
 }
 
 // function downloadImage(url){
 //   const link= document.createElement("a");
 //   link.href = url;
-//   const image = url.split('?')[0].split('/').pop() || 'image.jpg'; 
+//   const image = url.split('?')[0].split('/').pop() || 'image.jpg';
 //   link.setAttribute("download", image)
 //   document.body.appendChild(link);
 //   link.click();
 //   document.body.removeChild(link);
 // }
-
 
 const defaultKeywords = [
   "nature",
