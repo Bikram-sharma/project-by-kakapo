@@ -2,38 +2,10 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = 3000;
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(express.json());
-require("dotenv").config();
-
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("connected to database"))
-  .catch((err) => console.log("failed to connect to database", err));
-
-const userSchema = new mongoose.Schema({
-  userName: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-});
-
-const User = mongoose.model("User", userSchema);
+const users = require("./users");
 
 app.post("/signup", async (req, res) => {
   try {
@@ -43,27 +15,33 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const existingUser = await User.findOne({ userName: username });
+    const existingUser = users.find(
+      (user) => user.username === username || user.email == email
+    );
     if (existingUser) {
-      return res.status(400).json({ error: "Username already taken" });
+      if (existingUser.username === username && existingUser.email === email) {
+        return res
+          .status(400)
+          .json({ error: "Username and email are already taken" });
+      } else if (existingUser.username === username) {
+        return res.status(400).json({ error: "Username already taken" });
+      } else {
+        return res.status(400).json({ error: "Email already taken" });
+      }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
-      userName: username,
+    const newUser = {
+      username,
       password: hashedPassword,
-      email: email,
-    });
+      email,
+    };
 
-    const saved = await newUser.save();
+    users.push(newUser);
 
-    res.status(201).json(saved);
+    res.status(201).json({ username: newUser.username });
   } catch (err) {
-    if (err.code === 11000) {
-      const field = Object.keys(err.keyValue)[0];
-      return res.status(400).json({ error: `${field} already exists` });
-    }
     res.status(400).json({ err });
   }
 });
@@ -78,7 +56,7 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ userName: username });
+    const user = users.find((user) => user.username === username);
     if (!user) {
       return res.status(401).json({ error: "User not found" });
     }
@@ -86,8 +64,8 @@ app.post("/login", async (req, res) => {
     const correctPassword = await bcrypt.compare(password, user.password);
 
     if (correctPassword) {
-      const { userName, email } = user;
-      res.status(200).json({ username: userName, email });
+      const { username, email } = user;
+      res.status(200).json({ username, email });
     } else {
       return res.status(401).json({ error: "Invalid credentials" });
     }
