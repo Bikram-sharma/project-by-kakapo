@@ -1,4 +1,7 @@
 const form = document.getElementById("signupForm");
+const toggleIcon= document.getElementById("passwordIcon");
+const passwordInput = document.getElementById("password");
+
 
 function signup(e) {
   e.preventDefault();
@@ -53,3 +56,10 @@ function signup(e) {
 }
 
 form.addEventListener("submit", (e) => signup(e));
+
+toggleIcon.addEventListener("click",()=>{
+  const ispassword = passwordInput.type === "password"
+  passwordInput.type = ispassword ? "text" : "password";
+  toggleIcon.classList.toggle("fa-eye");
+  toggleIcon.classList.toggle("fa-eye-slash");
+});
