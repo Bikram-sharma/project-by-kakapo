@@ -1,6 +1,7 @@
 const form = document.getElementById("loginForm");
 const toggleIcon= document.getElementById("passwordIcon");
 const passwordInput = document.getElementById("password");
+const logInButton = document.getElementById("login");
 
 function login(e) {
   e.preventDefault();
@@ -8,11 +9,18 @@ function login(e) {
   const body = Object.fromEntries(formData);
 
   axios
-    .post("http://localhost:3000/login", body)
-    .then((response) => {
-      if (response.status === 200) {
-        localStorage.setItem("user", response.data.username);
-        window.location.href = "deskbod.html";
+  .post("http://localhost:3000/login", body)
+  .then((response) => {
+    if (response.status === 200) {
+      localStorage.setItem("user", response.data.username);      
+      Toastify({
+        text: "Logged in successfully!",
+        duration: 2000,
+        gravity: "top", // top or bottom
+        position: "center", // left, center or right
+        backgroundColor: "green",
+      }).showToast();
+      setTimeout(() => (window.location.href = "./deskbod.html"), 1000);
       } else {
         console.error("Login Failed", response.status);
       }

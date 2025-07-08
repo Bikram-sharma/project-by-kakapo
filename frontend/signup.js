@@ -37,7 +37,16 @@ function signup(e) {
     .post("http://localhost:3000/signup", body)
     .then((response) => {
       if (response.status === 201) {
-        window.location.href = "login.html";
+        
+        Toastify({
+          text: " Signed up successfully!",
+          duration: 2000,
+          gravity: "top", // top or bottom
+          position: "center", // left, center or right
+          backgroundColor: "green",
+        }).showToast();
+        setTimeout(() => (window.location.href = "./login.html"), 1000);
+        
       }
     })
     .catch((error) => {
@@ -62,3 +71,4 @@ toggleIcon.addEventListener("click",()=>{
   passwordInput.type = ispassword ? "text" : "password";
   toggleIcon.classList.toggle("fa-eye");
 });
+ 
