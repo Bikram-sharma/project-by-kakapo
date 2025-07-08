@@ -35,22 +35,29 @@ function search(query) {
       pics.forEach((photo) => {
         const card = document.createElement("div");
         card.className =
-          "h-[250px] bg-white rounded shadow flex flex-col relative";
+          "h-[250px] bg-white rounded shadow grid items-center relative p-5 group";
 
-        const icon = document.createElement("i");
-        icon.className =
-          "fa-solid fa-download absolute bottom-0 right-0 text-white cursor-pointer bg-black/70 rounded p-2";
-        icon.title = "Download";
+        const layer = document.createElement("div");
 
-        icon.onclick = () => downloadImage(photo.src.large);
+        layer.className =
+          "w-full h-full text-white bg-black/30 rounded p-2 absolute hidden group-hover:grid items-center text-center";
+
+        // layer.innerHTML = "Click to download!";
+
+        const downloadButton = document.createElement("button");
+        downloadButton.className =
+          "bg-blue-600 hover:bg-blue-700 w-40 h-10 m-auto rounded-full";
+        downloadButton.innerText = "Download!";
+        downloadButton.title = "Download";
+        downloadButton.onclick = () => downloadImage(photo.src.large);
 
         const img = document.createElement("img");
         img.src = photo.src.medium;
         img.alt = photo.photographer;
-        img.className = "w-full h-full object-cover z-1";
-
+        img.className = "w-full h-full object-cover absolute z-1";
+        layer.appendChild(downloadButton);
         card.appendChild(img);
-        card.appendChild(icon);
+        card.appendChild(layer);
         imageContainer.appendChild(card);
       });
     })
@@ -75,16 +82,6 @@ function downloadImage(url) {
     })
     .catch((err) => console.error("Download failed:", err));
 }
-
-// function downloadImage(url){
-//   const link= document.createElement("a");
-//   link.href = url;
-//   const image = url.split('?')[0].split('/').pop() || 'image.jpg';
-//   link.setAttribute("download", image)
-//   document.body.appendChild(link);
-//   link.click();
-//   document.body.removeChild(link);
-// }
 
 const defaultKeywords = [
   "nature",
