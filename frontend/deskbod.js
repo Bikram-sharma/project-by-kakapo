@@ -21,7 +21,6 @@ function search(query) {
     })
     .then(function (response) {
       const pics = response.data.photos;
-      imageContainer.innerHTML = "";
 
       if (pics.length === 0) {
         const message = document.createElement("div");
