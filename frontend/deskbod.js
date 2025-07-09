@@ -22,7 +22,7 @@ function search(query) {
     })
     .then(function (response) {
       const pics = response.data.photos;
-
+      imageContainer.replaceChildren();
       if (pics.length === 0) {
         const message = document.createElement("div");
         message.className =
@@ -102,7 +102,7 @@ const verifySearch = () => {
       duration: 2000,
       gravity: "top", // top or bottom
       position: "center", // left, center or right
-      backgroundColor: "green",
+      style: { backgroundColor: "green" },
     }).showToast();
     return;
   } else {
