@@ -1,10 +1,11 @@
-import { API_KEY } from "./config.js";
+import { API_KEY, WE_API_KEY } from "./config.js";
 
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
 const imageContainer = document.getElementById("imageContainer");
 const logOutButton = document.getElementById("logout");
 const userName = document.getElementById("username");
+const weather = document.getElementById("weather");
 
 if (!sessionStorage.getItem("user")) {
   window.location.href = "./login.html";
@@ -21,7 +22,6 @@ function search(query) {
     })
     .then(function (response) {
       const pics = response.data.photos;
-      imageContainer.innerHTML = "";
 
       if (pics.length === 0) {
         const message = document.createElement("div");
@@ -130,3 +130,19 @@ document.addEventListener("keydown", (event) => {
     verifySearch();
   }
 });
+
+// fro weather
+
+axios
+  .get(
+    `https://api.openweathermap.org/data/2.5/weather?lat=27.4713546&lon=89.6336729&appid=${WE_API_KEY}&units=metric`
+  )
+  .then((response) => {
+    let place = response.data.name;
+    let temperature = response.data.main.temp;
+    let description = response.data.weather[0].description;
+    const date = new Date().toDateString();
+
+    weather.innerText = ` ${date} ${place} ${temperature}°C ${description}`;
+    console.log(response.data.name);
+  });
