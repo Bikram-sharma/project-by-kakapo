@@ -61,6 +61,14 @@ function signup(e) {
           backgroundColor: "red",
         }).showToast();
       } else {
+        Toastify({
+          text: "Server Error",
+          duration: 3000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "red",
+        }).showToast();
+
         console.error("Server Error", error);
       }
     });
