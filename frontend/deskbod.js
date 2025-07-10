@@ -102,7 +102,7 @@ const verifySearch = () => {
       duration: 2000,
       gravity: "top", // top or bottom
       position: "center", // left, center or right
-      style: { backgroundColor: "green" },
+      backgroundColor: "green",
     }).showToast();
     return;
   } else {
