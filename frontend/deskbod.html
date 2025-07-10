@@ -26,14 +26,14 @@
   </head>
   <body>
     <main class="text-black px-10 py-5">
-      <div class="flex justify-between">
-        <div class="text-xl italic flex items-center w-[65vw]">
-          <img src="./pixplore.jpg" alt="logo" class="w-30 h-10 mr-3" />
+      <div class="grid grid-cols-3 grid-rows-2">
+        <img src="./pixplore.jpg" alt="logo" class="w-30 h-10 col-span-3" />
 
+        <div class="text-xl italic flex items-center col-span-2">
           Welcome, <span id="username" class="font-bold"></span> Discover
           beautiful images and save them instantly.
         </div>
-        <div class="w-[38vw] h-10 flex items-center scroll-container relative">
+        <div class="h-10 flex items-center scroll-container relative">
           <div
             class="absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-white to-transparent z-10"
           ></div>
