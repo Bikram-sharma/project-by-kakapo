@@ -1,12 +1,21 @@
 const express = require("express");
+const knex = require("knex");
 const app = express();
 const cors = require("cors");
 const port = 3000;
 const bcrypt = require("bcrypt");
-const { v4: uniqueId } = require("uuid");
 app.use(cors());
 app.use(express.json());
-const users = require("./users");
+const db = knex({
+  client:"pg",
+  connection:{
+    host:"localhost",
+    port:5422,
+    user: "pixplore",
+    password:"12345",
+    database:"pixplore_users"
+  }
+})
 
 app.post("/signup", async (req, res) => {
   try {
@@ -16,9 +25,7 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const existingUser = users.find(
-      (user) => user.username === username || user.email == email
-    );
+    const existingUser = await db("users").where("username",username).first()
     if (existingUser) {
       if (existingUser.username === username && existingUser.email === email) {
         return res
@@ -33,16 +40,15 @@ app.post("/signup", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = {
-      id: uniqueId(),
+    await db("users")
+    .insert({
       username,
-      password: hashedPassword,
       email,
-    };
+      password: hashedPassword,
+    })
 
-    users.push(newUser);
 
-    res.status(201).json({ username: newUser.username });
+    res.status(201).json({ message: "User created successfully" });
   } catch (err) {
     res.status(400).json({ err });
   }
@@ -58,7 +64,7 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const user = users.find((user) => user.username === username);
+    const user = await db("users").where("username", username).first();
     if (!user) {
       return res.status(401).json({ error: "User not found" });
     }

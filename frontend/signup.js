@@ -8,6 +8,8 @@ if (sessionStorage.getItem("user")) {
 
 function signup(e) {
   e.preventDefault();
+  e.stopPropagation(); 
+ 
   const formData = new FormData(form);
   const body = Object.fromEntries(formData);
 
@@ -40,14 +42,8 @@ function signup(e) {
     .post("http://localhost:3000/signup", body)
     .then((response) => {
       if (response.status === 201) {
-        Toastify({
-          text: "Signed up successfully!",
-          duration: 2000,
-          gravity: "top", // top or bottom
-          position: "center", // left, center or right
-          backgroundColor: "green",
-        }).showToast();
-        setTimeout(() => (window.location.href = "./login.html"), 1000);
+        console.log(response.data.message)
+        window.location.href = "./login.html";
       }
     })
     .catch((error) => {
