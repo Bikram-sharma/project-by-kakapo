@@ -43,7 +43,14 @@ function signup(e) {
     .then((response) => {
       if (response.status === 201) {
         console.log(response.data.message);
-        window.location.href = "./login.html";
+        Toastify({
+          text: response.data.message,
+          duration: 3000,
+          gravity: "top",
+          position: "center",
+          backgroundColor: "green",
+        }).showToast();
+        setTimeout(() => (window.location.href = "./login.html"), 1000);
       }
     })
     .catch((error) => {
