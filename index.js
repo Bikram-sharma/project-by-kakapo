@@ -7,15 +7,15 @@ const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(express.json());
 const db = knex({
-  client:"pg",
-  connection:{
-    host:"localhost",
-    port:5422,
+  client: "pg",
+  connection: {
+    host: "localhost",
+    port: 5433,
     user: "pixplore",
-    password:"12345",
-    database:"pixplore_users"
-  }
-})
+    password: "12345",
+    database: "pixplore_users",
+  },
+});
 
 app.post("/signup", async (req, res) => {
   try {
@@ -25,7 +25,7 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const existingUser = await db("users").where("username",username).first()
+    const existingUser = await db("users").where("username", username).first();
     if (existingUser) {
       if (existingUser.username === username && existingUser.email === email) {
         return res
@@ -40,13 +40,11 @@ app.post("/signup", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db("users")
-    .insert({
+    await db("users").insert({
       username,
       email,
       password: hashedPassword,
-    })
-
+    });
 
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {

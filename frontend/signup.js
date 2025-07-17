@@ -8,8 +8,8 @@ if (sessionStorage.getItem("user")) {
 
 function signup(e) {
   e.preventDefault();
-  e.stopPropagation(); 
- 
+  e.stopPropagation();
+
   const formData = new FormData(form);
   const body = Object.fromEntries(formData);
 
@@ -42,7 +42,7 @@ function signup(e) {
     .post("http://localhost:3000/signup", body)
     .then((response) => {
       if (response.status === 201) {
-        console.log(response.data.message)
+        console.log(response.data.message);
         window.location.href = "./login.html";
       }
     })
